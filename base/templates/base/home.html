@@ -37,7 +37,7 @@
             <div style="display: inline-block; width: 15%;">
                 <form method="POST">
                     {% csrf_token %}
-                <input type="number" value="{{ task.progress }}" min=0 max=100 style="width: 60px;" name="progress"> 
+                <input type="number" value="{{ task.progress }}" min=0 max=100 style="width: 60px;" name="progress">%
                 <input type="hidden" value="{{ task.id }}" name="taskId">
                 </form>
             </div>

@@ -1,0 +1,48 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+    <h1>Home</h1>
+    {% for task in tasks %}
+    <div style="width: 20px; height: 20px;"></div>
+    <div class="card text-center">
+        <div class="card-header">
+          {% if task.due %}
+            {{ task.due }} {{ task.due_time }}
+            {% else %}
+            Task
+          {% endif %}
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{ task.title }}</h5>
+          <p class="card-text">{{ task.description }}</p>
+        </div>
+        <div class="card-footer text-muted">
+            <div style="display: inline-block; width: 80%;"> 
+                <div class="progress">
+                    <div style="
+                        width: {{ task.progress }}%;
+                        background: rgb({{ task.red }}, {{ task.green }}, {{ task.blue }});
+
+                        "  
+                        class="progress-bar" 
+                        role="progressbar" 
+                        aria-label="Default striped example" 
+                        aria-valuenow="{{ task.progress }}" 
+                        aria-valuemin="0" 
+                        aria-valuemax="100">
+                    </div>
+                </div>
+            </div>
+            <div style="display: inline-block; width: 15%;">
+                <form method="POST">
+                    {% csrf_token %}
+                <input type="number" value="{{ task.progress }}" min=0 max=100 style="width: 60px;" name="progress"> 
+                <input type="hidden" value="{{ task.id }}" name="taskId">
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+{% endblock content %}

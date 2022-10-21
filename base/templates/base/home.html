@@ -3,46 +3,66 @@
 {% block content %}
 
     <h1>Home</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <h2>New Task</h2>
+        <div class="mb-3">
+            <label for="exampleColorInput" class="form-label">Color picker</label>
+            <input type="color" class="form-control form-control-color" id="exampleColorInput" value="#aa00ff" title="Choose your color" name="color">
+            <label for="exampleFormControlInput1" class="form-label">Title</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Name your task" name="taskTitle">
+          </div>
+          <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="taskDescription"></textarea>
+            
+          </div>
+          <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Add Task</button>
+          </div>
+    </form>
     {% for task in tasks %}
-    <div style="width: 20px; height: 20px;"></div>
-    <div class="card text-center">
-        <div class="card-header">
-          {% if task.due %}
-            {{ task.due }} {{ task.due_time }}
-            {% else %}
-            Task
-          {% endif %}
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">{{ task.title }}</h5>
-          <p class="card-text">{{ task.description }}</p>
-        </div>
-        <div class="card-footer text-muted">
-            <div style="display: inline-block; width: 80%;"> 
-                <div class="progress">
-                    <div style="
-                        width: {{ task.progress }}%;
-                        background: rgb({{ task.red }}, {{ task.green }}, {{ task.blue }});
+    {% if task.user == request.user %}
+        <div style="width: 20px; height: 20px;"></div>
+        <div class="card text-center">
+            <div class="card-header">
+            {% if task.due %}
+                {{ task.due }} {{ task.due_time }}
+                {% else %}
+                Task
+            {% endif %}
+            </div>
+            <div class="card-body">
+            <h5 class="card-title">{{ task.title }}</h5>
+            <p class="card-text">{{ task.description }}</p>
+            </div>
+            <div class="card-footer text-muted">
+                <div style="display: inline-block; width: 80%;"> 
+                    <div class="progress">
+                        <div style="
+                            width: {{ task.progress }}%;
+                            background: {{ task.color }};
 
-                        "  
-                        class="progress-bar" 
-                        role="progressbar" 
-                        aria-label="Default striped example" 
-                        aria-valuenow="{{ task.progress }}" 
-                        aria-valuemin="0" 
-                        aria-valuemax="100">
+                            "  
+                            class="progress-bar" 
+                            role="progressbar" 
+                            aria-label="Default striped example" 
+                            aria-valuenow="{{ task.progress }}" 
+                            aria-valuemin="0" 
+                            aria-valuemax="100">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div style="display: inline-block; width: 15%;">
-                <form method="POST">
-                    {% csrf_token %}
-                <input type="number" value="{{ task.progress }}" min=0 max=100 style="width: 60px;" name="progress">%
-                <input type="hidden" value="{{ task.id }}" name="taskId">
-                </form>
+                <div style="display: inline-block; width: 15%;">
+                    <form method="POST">
+                        {% csrf_token %}
+                    <input type="number" value="{{ task.progress }}" min=0 max=100 style="width: 60px;" name="progress">%
+                    <input type="hidden" value="{{ task.id }}" name="taskId">
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
+    {% endif %}
     {% endfor %}
 
 {% endblock content %}

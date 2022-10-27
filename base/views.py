@@ -1,3 +1,4 @@
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .models import Task
@@ -16,14 +17,27 @@ def index(request):
         ntask.color = request.POST.get("color")
         if ntask.title is not None:
             ntask.save()
-        progress = request.POST.get("progress")
-        taskid = request.POST.get("taskId")
-        if taskid is not None:
-            task = Task.objects.get(id=taskid)
-            task.progress = progress
-            task.save()
+        
         
     context = {
         'tasks': Task.objects.all()
     }
     return render(request, "base/home.html", context)
+
+def changeProgress(request):
+    if request.method == "GET":
+        task_id = request.GET['task_id']
+        will_increase = request.GET['will_increase']
+        task = Task.objects.get(pk=task_id)
+        if will_increase == '1' and task.progress <= 90:
+            task.progress += 10
+        elif will_increase == '0' and task.progress >= 10:
+            task.progress -= 10
+        else:
+            return HttpResponse("Do Nothing") # this should be for debugging only
+        jsonContent = {
+            "progress": task.progress
+        }
+        task.save()
+        return JsonResponse(jsonContent)
+

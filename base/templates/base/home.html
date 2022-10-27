@@ -38,8 +38,9 @@
             </div>
             <div class="card-footer text-muted">
                 <div style="display: inline-block;">
-                    <button class="btn btn-dark" style="width: 60px; padding: 2px;">-10%</button>
+                    <button class="btn btn-dark progressbutton" style="width: 60px; padding: 2px;" will-increase="0" data-catid="{{ task.id }}">-10%</button>
                 </div>
+
                 <div style="display: inline-block; width: 75%;"> 
                     <div class="progress">
                         <div style="
@@ -52,21 +53,44 @@
                             aria-label="Default striped example" 
                             aria-valuenow="{{ task.progress }}" 
                             aria-valuemin="0" 
-                            aria-valuemax="100">
+                            aria-valuemax="100"
+                            id="progressbar-{{ task.id }}">
                         </div>
                     </div>
                 </div>
+
                 <div style="display: inline-block; width: 10%;">
-                    <button class="btn btn-dark" style="width: 60px; padding: 2px;">+10%</button>
-                    {% comment %} <form method="POST">
-                        {% csrf_token %}
-                    <input type="number" value="{{ task.progress }}" min=0 max=100 style="width: 60px;" name="progress">%
-                    <input type="hidden" value="{{ task.id }}" name="taskId">
-                    </form> {% endcomment %}
+                    <button class="btn btn-dark progressbutton" style="width: 60px; padding: 2px;" will-increase="1" data-catid="{{ task.id }}">+10%</button>
                 </div>
+                
             </div>
         </div>
     {% endif %}
     {% endfor %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+                <script type="text/javascript">
+                    $('.progressbutton').off('click').on('click', 
+                        function() {
+                            console.log("This works");
+                            let catid = $(this).attr("data-catid");
+                            let will_increase = $(this).attr("will-increase");
+                            $.ajax(
+                                {
+                                    type: "GET",
+                                    url: "/changeprogress",
+                                    data: {
+                                        task_id: catid,
+                                        will_increase: will_increase
+                                    },
+                                    success: function( data )
+                                    {
+                                        $( '#progressbar-' + catid)[0].style.width = data["progress"] + "%";
+                                        $( '#progressbar-' + catid).AriaValueNow = data["progress"];
+                                    }
+                                }
+                            )
+                        }
+                    )
+                </script>
 
 {% endblock content %}

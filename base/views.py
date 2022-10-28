@@ -24,6 +24,7 @@ def index(request):
     }
     return render(request, "base/home.html", context)
 
+@login_required # shouldn't need this but it is probably more secure. 
 def changeProgress(request):
     if request.method == "GET":
         task_id = request.GET['task_id']

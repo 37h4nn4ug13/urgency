@@ -91,6 +91,10 @@
                             )
                         }
                     )
+                    {% if user.profile.random_colors %}
+                    const color = Math.floor(Math.random()*16777215).toString(16);
+                    document.getElementById("exampleColorInput").value = "#" + color 
+                    {% endif %}
                 </script>
 
 {% endblock content %}

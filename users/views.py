@@ -1,7 +1,9 @@
+import imp
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.models import User
+from .models import Profile
 
 from users.forms import NewUserForm
 # Create your views here.
@@ -42,5 +44,13 @@ def registerView(request):
         "form": form,
     }
     return render(request, 'users/register.html', context)
+
+
+def profile(request):
+    profile = Profile.objects.get(user=request.user)
+    context = {
+        "profile": profile
+    }
+    return render(request, "users/profile.html", context)
 
 

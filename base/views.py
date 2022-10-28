@@ -1,5 +1,5 @@
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Task
 
@@ -17,6 +17,7 @@ def index(request):
         ntask.color = request.POST.get("color")
         if ntask.title is not None:
             ntask.save()
+            return redirect("home")
         
         
     context = {

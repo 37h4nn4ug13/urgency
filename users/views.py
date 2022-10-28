@@ -46,7 +46,13 @@ def registerView(request):
     return render(request, 'users/register.html', context)
 
 
+@csrf_protect
 def profile(request):
+    if request.method == "POST":
+        profile = Profile.objects.get(user=request.user)
+        profile.random_colors = request.POST.get("randomcolors") == "on"
+        profile.save()
+        return redirect("profile")
     profile = Profile.objects.get(user=request.user)
     context = {
         "profile": profile

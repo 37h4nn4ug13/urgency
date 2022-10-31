@@ -37,6 +37,8 @@ def registerView(request):
         form = NewUserForm(request.POST)
         if form.is_valid():
             user = form.save()
+            profile = Profile(user=user)
+            profile.save()
             login(request, user)
             return redirect("home")
     form = NewUserForm()

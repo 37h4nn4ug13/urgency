@@ -22,15 +22,16 @@
           </div>
     </form>
     {% for task in tasks %}
-    {% if task.user == request.user %}
+    {% if task.user == request.user and task.is_complete != True %}
         <div style="width: 20px; height: 20px;"></div>
-        <div class="card text-center">
+        <div class="card text-center" id="task-card-{{ task.id }}">
             <div class="card-header">
             {% if task.due %}
                 {{ task.due }} {{ task.due_time }}
                 {% else %}
                 Task
             {% endif %}
+            <button class="btn btn-info remove-btn fr" data-catid="{{ task.id }}">complete</button>
             </div>
             <div class="card-body">
             <h5 class="card-title">{{ task.title }}</h5>
@@ -68,33 +69,56 @@
     {% endif %}
     {% endfor %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-                <script type="text/javascript">
-                    $('.progressbutton').off('click').on('click', 
-                        function() {
-                            console.log("This works");
-                            let catid = $(this).attr("data-catid");
-                            let will_increase = $(this).attr("will-increase");
-                            $.ajax(
-                                {
-                                    type: "GET",
-                                    url: "/changeprogress",
-                                    data: {
-                                        task_id: catid,
-                                        will_increase: will_increase
-                                    },
-                                    success: function( data )
-                                    {
-                                        $( '#progressbar-' + catid)[0].style.width = data["progress"] + "%";
-                                        $( '#progressbar-' + catid).AriaValueNow = data["progress"];
-                                    }
-                                }
-                            )
+    <script type="text/javascript">
+        $('.remove-btn').off('click').on('click', 
+            function() {
+                console.log("Removing ");
+                let catid = $(this).attr("data-catid");
+                $.ajax(
+                    {
+                        type: "GET",
+                        url: "/remove",
+                        data: {
+                            task_id: catid,
+
+                        },
+                        success: function( data ) {
+                            console.log(data);
+                            if (data == "True") {
+                                $('#task-card-' + catid)[0].style.display = "none";
+                            }
+                                
                         }
-                    )
-                    {% if user.profile.random_colors %}
-                    const color = Math.floor(Math.random()*16777215).toString(16);
-                    document.getElementById("exampleColorInput").value = "#" + color 
-                    {% endif %}
-                </script>
+                    }
+                )
+            }
+        )
+        $('.progressbutton').off('click').on('click', 
+            function() {
+                console.log("This works");
+                let catid = $(this).attr("data-catid");
+                let will_increase = $(this).attr("will-increase");
+                $.ajax(
+                    {
+                        type: "GET",
+                        url: "/changeprogress",
+                        data: {
+                            task_id: catid,
+                            will_increase: will_increase
+                        },
+                        success: function( data )
+                        {
+                            $( '#progressbar-' + catid)[0].style.width = data["progress"] + "%";
+                            $( '#progressbar-' + catid).AriaValueNow = data["progress"];
+                        }
+                    }
+                )
+            }
+        )
+        {% if user.profile.random_colors %}
+        const color = Math.floor(Math.random()*16777215).toString(16);
+        document.getElementById("exampleColorInput").value = "#" + color 
+        {% endif %}
+    </script>
 
 {% endblock content %}

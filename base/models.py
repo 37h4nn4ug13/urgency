@@ -11,6 +11,7 @@ class Task(models.Model):
     progress = models.IntegerField(default=0)
     color = models.CharField(max_length=9, default="#aa00ff")
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    is_complete = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title

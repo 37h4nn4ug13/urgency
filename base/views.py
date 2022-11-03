@@ -43,3 +43,13 @@ def changeProgress(request):
         task.save()
         return JsonResponse(jsonContent)
 
+@login_required
+def remove(request):
+    if request.method == "GET":
+        task_id = request.GET['task_id']
+        task = Task.objects.get(pk=task_id)
+        task.is_complete = True
+        task.save()
+        return HttpResponse(task.is_complete)
+
+

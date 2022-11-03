@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.models import User
 from .models import Profile
+from base.models import Task
 
 from users.forms import NewUserForm
 # Create your views here.
@@ -56,8 +57,10 @@ def profile(request):
         profile.save()
         return redirect("profile")
     profile = Profile.objects.get(user=request.user)
+    tasks = Task.objects.filter(user=request.user)
     context = {
-        "profile": profile
+        "profile": profile,
+        "tasks": tasks,
     }
     return render(request, "users/profile.html", context)
 

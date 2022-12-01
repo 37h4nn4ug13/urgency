@@ -19,7 +19,7 @@
     <ul class="list-group list-group-flush">
         {% for task in tasks %}
         {% if task.is_complete %}
-        <li class="list-group-item">{{ task.title }} - <button class="btn btn-outline-dark">Restore</button></li>
+        <li class="list-group-item">{{ task.title }} - <button class="btn btn-outline-dark ml-4">Restore</button><button class="btn btn-outline-danger ml-4">Delete</button></li>
         {% endif %}
         {% endfor %}
       </ul>

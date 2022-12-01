@@ -8,7 +8,7 @@
         <h2>New Task</h2>
         <div class="mb-3">
             <label for="exampleColorInput" class="form-label">Color picker</label>
-            <input type="color" class="form-control form-control-color" id="exampleColorInput" value="#aa00ff" title="Choose your color" name="color">
+            <input type="color" class="form-control form-control-color" id="exampleColorInput" value="#EFD9CE" title="Choose your color" name="color">
             <label for="exampleFormControlInput1" class="form-label">Title</label>
             <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Name your task" name="taskTitle">
           </div>
@@ -18,7 +18,7 @@
             
           </div>
           <div class="mb-3">
-            <button type="submit" class="btn btn-primary">Add Task</button>
+            <button type="submit" class="btn btn-pri">Add Task</button>
           </div>
     </form>
     {% for task in tasks %}
@@ -70,6 +70,8 @@
     {% endfor %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script type="text/javascript">
+        let activeLink = document.getElementById("home-side-link");
+        activeLink.classList.add("active");
         $('.remove-btn').off('click').on('click', 
             function() {
                 console.log("Removing ");

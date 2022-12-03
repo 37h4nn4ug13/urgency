@@ -91,8 +91,8 @@
                 <hr>
                 <div class="dropdown">
                 <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                    <strong>mdo</strong>
+                    <img src="{{ request.user.profile.img.url }}" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <strong>{{ request.user.username }}</strong>
                 </a>
                 <ul class="dropdown-menu dropdown-menu text-small shadow" aria-labelledby="dropdownUser1">
                     <li><a class="dropdown-item" href="#">New project...</a></li>
@@ -105,9 +105,10 @@
             </div>
 
             <div class="container mt-4">
-                {% block content %}
-                {% endblock content%}
-
+                <div class="content">
+                    {% block content %}
+                    {% endblock content%}
+                </div>
             
             </div>
         </div>

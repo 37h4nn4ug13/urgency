@@ -3,24 +3,29 @@
 {% block content %}
 
     <h1>Home</h1>
-    <form method="POST">
-        {% csrf_token %}
-        <h2>New Task</h2>
-        <div class="mb-3">
-            <label for="exampleColorInput" class="form-label">Color picker</label>
-            <input type="color" class="form-control form-control-color" id="exampleColorInput" value="#EFD9CE" title="Choose your color" name="color">
-            <label for="exampleFormControlInput1" class="form-label">Title</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Name your task" name="taskTitle">
-          </div>
-          <div class="mb-3">
-            <label for="exampleFormControlTextarea1" class="form-label">Description</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="taskDescription"></textarea>
-            
-          </div>
-          <div class="mb-3">
-            <button type="submit" class="btn btn-pri">Add Task</button>
-          </div>
-    </form>
+    <div class="card bg-pri">
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                <h2>New Task</h2>
+                <div class="mb-3">
+                    <label for="exampleColorInput" class="form-label">Color picker</label>
+                    <input type="color" class="form-control form-control-color" id="exampleColorInput" value="#EFD9CE" title="Choose your color" name="color">
+                    <label for="exampleFormControlInput1" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Name your task" name="taskTitle">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="taskDescription"></textarea>
+                    
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-pri">Add Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     {% for task in tasks %}
     {% if task.user == request.user and task.is_complete != True %}
         <div style="width: 20px; height: 20px;"></div>

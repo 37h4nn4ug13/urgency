@@ -70,6 +70,14 @@ html, body {
   padding: 20px;
 }
 
+.content {
+  max-width: 500px;
+}
+
+.bg-pri {
+  background-color: #25283D;
+}
+
 @media only screen and (max-width: 600px) {
   .sidebar {
     display: none !important;

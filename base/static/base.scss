@@ -64,8 +64,15 @@ html, body {
     background-color: $primary-color;
     padding: 20px;
 }
+.content {
+    max-width: 500px;
+}
+.bg-pri {
+    background-color: $primary-color;
+}
 @media only screen and (max-width: 600px)  {
     .sidebar {
         display: none !important;
     }
+    
 }
